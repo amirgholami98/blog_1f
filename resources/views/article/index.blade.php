@@ -3,6 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row">
+      @if($articles->count()<= 0)
+        <p>not post seved</p>
+        @endif
         @foreach($articles as $article)
       <div class="col-sm-6">
         <div class="card">

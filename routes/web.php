@@ -25,3 +25,6 @@ Route::get('/article/create','ArticleController@create')->name('article.create')
 
 Route::post('/article','ArticleController@store')->name('article.store');
 
+Route::get('music', 'MusicController@index')->name('music.index');
+Route::get('music/{id}', 'MusicController@show')->where('id', '[0-9]+')->name('music.show');
+

@@ -9,8 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class ArticleController extends Controller
 {
     public static function index(){
-        $articles = Article::all();
+//        return auth()->user();
 
+        $re->session()->flash('status', 'Task was successful!');
+
+        return $re->all();
+
+        $articles = Article::all();
 
 
         return view('article.index', ['articles' => $articles]);
@@ -24,19 +29,26 @@ class ArticleController extends Controller
 
         return view('article.create');
     }
-    public static function store(Request $request){
-        if (Auth::check() ==1){
-            $article = Article::create([
-                'title'=>$request->title,
-                'body'=>$request->body,
-                'dec'=>$request->description
-            ]);
+    public function store(Request $request){
+        $this->validate($request , [
+            'title' => 'unique:articles|required',
+            'body' => 'required',
+            'description' => 'required'
+        ]);
 
-            return redirect(route('article.show', ['id'=> $article->id]));
+        $article = Article::create([
+            'title' => $request['title'],
+            'body' => $request['body'],
+            'dec' => $request['description']
 
-        }elseif (Auth::check() == 0){
+        ]);
+//        return $article;
+
+        return redirect(route('article.show', ['id'=> $article->id]));
+
+//        }elseif (Auth::check() == 0){
             return redirect(route('article.index'));
-        }
+//        }
 
 
     }
